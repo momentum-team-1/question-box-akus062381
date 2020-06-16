@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     # Project-specific
     'users',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,4 @@ INTERNAL_IPS = [
 # Configure Django App for Heroku.
 import django_heroku
 django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
