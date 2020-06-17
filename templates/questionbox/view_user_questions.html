@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>User Question Library</p>
+
+<p>
+    <a class="" href="{% url 'ask_question' %}">Ask a new question</a>
+</p>
+
+<ul>
+    {% for question in questions.all %}
+        <li><a href="{% url 'view_question' question_pk=question.pk %}">{{ question.question_title }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
