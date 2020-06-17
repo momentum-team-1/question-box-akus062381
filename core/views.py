@@ -25,7 +25,7 @@ def ask_question(request):
             the_question = form.save(commit=False)
             the_question.user = request.user
             the_question.save()
-            return redirect(to='view_question')
+            return redirect(to='view_user_questions')
     else:
         form = QuestionForm()
     
@@ -37,7 +37,7 @@ def view_question(request, question_pk):
     """
     Shows individual questions, their related answers, and offers the option to add an answer.
     """
-    question = get_object_or_404(request.user.questions, pk=question.pk)
+    question = get_object_or_404(request.user.questions, pk=question_pk)
     return render(request, 'questionbox/view_question.html', {'question': question})
 
 def view_user_questions(request):
@@ -51,7 +51,7 @@ def delete_question(request, question_pk):
     """
     Delete a question.
     """
-    question = get_object_or_404(request.user.questions, pk=question.pk)
+    question = get_object_or_404(request.user.questions, pk=question_pk)
 
     if request.method == 'POST':
         question.delete()
