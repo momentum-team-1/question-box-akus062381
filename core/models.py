@@ -29,7 +29,7 @@ def search_questions(search_term):
     return questions.filter(Q(question_title__icontains=search_term)
         | Q(question_body__icontains=search_term))
 
-def get_all_questions(queryset):
+def get_all_questions(queryset, user):
     if user.is_authenticated:
         questions = queryset.filter(Q(public=True) | Q(user=user))
     else:

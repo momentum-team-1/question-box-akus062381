@@ -97,9 +97,8 @@ def add_answer(request, question_pk):
 def search_questions(request):
     query = request.GET.get('q')
 
-    if query in request.GET and request.GET[query]:
+    if query is not None:
         results = Question.objects.filter(Q(question_body__icontains=query))
-        return results
     else:
         results = None
     

@@ -12,13 +12,13 @@
     </p>
 </form>
 
-{% if results is not None %}
+
 <ul>
     {% for result in results %}
-        <li><button class=""><a class="" href="{% url 'view_question' question_pk=question.pk %}">{{ question.question_title }}</a></button></li>
+        <li><a class="" href="{% url 'view_question' question_pk=result.pk %}">{{ result.question_title }}</a></li>
     {% endfor %}
 </ul>
-{% endif %}
+
 
 
 {% endblock %}
