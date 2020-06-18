@@ -9,13 +9,21 @@
     <p>
         <button class="" type="submit">Show Results</button>
         <button class="" type="submit"><a class="" href="{% url 'search_questions' %}">Clear Search</a></button>
+        <button class="" type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
     </p>
 </form>
-
-
+<br>
+<h6>Results within questions:</h6>
 <ul>
     {% for result in results %}
         <li><a class="" href="{% url 'view_question' question_pk=result.pk %}">{{ result.question_title }}</a></li>
+    {% endfor %}
+</ul>
+<br>
+<h6>Results within answers:</h6>
+<ul>
+    {% for answer in answers %}
+        <li><a class="" href="{% url 'view_question' question_pk=answer.question.pk %}">{{ answer.answer_text }}</a></li>
     {% endfor %}
 </ul>
 

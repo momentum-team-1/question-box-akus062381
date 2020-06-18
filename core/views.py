@@ -5,6 +5,7 @@ from django.db.models import Q
 from users.models import User
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 
 def home(request):
@@ -98,12 +99,20 @@ def search_questions(request):
     query = request.GET.get('q')
 
     if query is not None:
-        results = Question.objects.filter(Q(question_body__icontains=query))
+        results = Question.objects.filter(Q(question_body__icontains=query)) 
+        answers = Answer.objects.filter(Q(answer_text__icontains=query))
     else:
         results = None
+        answers = None
     
     return render(request, 'questionbox/search_questions.html', {
         'query': query,
         'results': results,
+        'answers': answers,
     })
 
+@login_required
+def profile_view(request, username):
+    profile = User.objects.get(username=username)
+
+    return render(request, 'questionbox/profile_view.html', {"profile": profile})

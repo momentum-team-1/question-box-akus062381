@@ -1,6 +1,8 @@
 from django.db import models
 from users.models import User
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
 
 # Create your models here.
 
@@ -35,3 +37,19 @@ def get_all_questions(queryset, user):
     else:
         questions = queryset.filter(public=True)
     return questions
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+
+    model = User
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = 'questionbox/profile_view.html'
+
+    def get_profile(self):
+
+        profile = get_object_or_404(User, username=self.kwargs.get('username'))
+
+        if self.request.user.username == profile.username:
+            return profile
+        else:
+            print("You are not the owner!")
