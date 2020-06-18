@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Search All Questions</h2>
+
+<form action="{% url 'search_questions' %}" method='GET'>
+    <input type='search' name='q' placeholder="Enter search here" class="">
+    <p>
+        <button class="" type="submit">Show Results</button>
+        <button class="" type="submit"><a class="" href="{% url 'search_questions' %}">Clear Search</a></button>
+    </p>
+</form>
+
+{% if results is not None %}
+<ul>
+    {% for result in results %}
+        <li><button class=""><a class="" href="{% url 'view_question' question_pk=question.pk %}">{{ question.question_title }}</a></button></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+{% endblock %}

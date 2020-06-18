@@ -27,6 +27,8 @@ urlpatterns = [
     path('questionbox/<int:question_pk>/', core_views.view_question, name='view_question'),
     path('questionbox/<int:question_pk>/delete', core_views.delete_question, name='delete_question'),
     path('questionbox/<int:question_pk>/add_answer/', core_views.add_answer, name='add_answer'),
+    path('questionbox/search_questions/', core_views.search_questions, name='search_questions'),
+
 ]
 
 if settings.DEBUG:

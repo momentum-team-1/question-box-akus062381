@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from django.db.models import Q
 
 # Create your models here.
 
@@ -22,3 +23,15 @@ class Answer(models.Model):
 
     # def __str__(self):
     #     return self.answer_text
+
+def search_questions(search_term):
+    questions = get_all_questions(Question.objects)
+    return questions.filter(Q(question_title__icontains=search_term)
+        | Q(question_body__icontains=search_term))
+
+def get_all_questions(queryset):
+    if user.is_authenticated:
+        questions = queryset.filter(Q(public=True) | Q(user=user))
+    else:
+        questions = queryset.filter(public=True)
+    return questions

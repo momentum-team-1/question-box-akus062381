@@ -8,12 +8,14 @@
     <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
     <button type="submit"><a class="" href="{% url 'view_user_questions' %}">Question Libary</a></button>
     <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
+    <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Questions</a></button>
 </div>
 
 
 
 <h4>{{ question.question_title }}</h4>
 <p>{{ question.question_body }}</p>
+<p>{{ question.date_field }}</p>
 <br>
 <div>
     <button type="submit"><a href="{% url 'delete_question' question_pk=question.pk %}">Delete Question</a></button>
@@ -23,7 +25,7 @@
 
 <ul>
     {% for answer in question.answers.all %}
-        <li>{{ answer.answer_text }}</li>
+        <li><p>{{ answer.answer_text }}</p><p>{{ answer.date_field }}</p></li>
     {% endfor %}
 </ul>
 
