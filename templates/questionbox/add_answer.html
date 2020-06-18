@@ -1,34 +1,15 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
+<br>
+<h3>Add Your Answer:</h3>
 
 <div>
+    <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
     <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
     <button type="submit"><a class="" href="{% url 'view_user_questions' %}">Question Libary</a></button>
-    <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
-</div>
-
-
-
-<h4>{{ question.question_title }}</h4>
-<p>{{ question.question_body }}</p>
-<br>
-<div>
-    <button type="submit"><a href="{% url 'delete_question' question_pk=question.pk %}">Delete Question</a></button>
 </div>
 <br>
-<h4>Answers</h4>
-
-<ul>
-    {% for answer in question.answers.all %}
-        <li>{{ answer.answer_text }}</li>
-    {% endfor %}
-</ul>
-
-
-<h4>Add Your Answer:</h4>
 <div>
     <form class="" action="{% url 'add_answer' question_pk=question.pk %}" method="POST">
         {% csrf_token %}

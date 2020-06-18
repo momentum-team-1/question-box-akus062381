@@ -2,9 +2,28 @@
 
 {% block content %}
 <div>
+    
+    {% if user.is_anonymous %}
     <div>
-        <h1>Homepage</h1>
+        <button type="submit"><a class="" href="{% url 'auth_login' %}">Login</a></button>
     </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <p>Welcome back, {{ user.first_name }}!</p>
+        <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
+        <button type="submit"><a class="" href="{% url 'view_user_questions' %}">View Your Questions</a></button>
+        <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
+
+    {% endif %}
+
+    <ul>
+        {% for question in questions.all %}
+            <li><a href="{% url 'view_question' question_pk=question.pk %}">{{ question.question_title }}</a></li>
+        {% endfor %}
+    </ul>
+
 </div>
+
 
 {% endblock %}

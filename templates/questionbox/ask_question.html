@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<br>
+<h3>Ask Your Question:</h3>
 
-<h2>Ask Your Question:</h2>
-
+<div>
+    <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
+    <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
+    <button type="submit"><a class="" href="{% url 'view_user_questions' %}">Question Libary</a></button>
+</div>
+<br>
 <div>
     <form class="" action="{% url 'ask_question' %}" method="POST">
         {% csrf_token %}
