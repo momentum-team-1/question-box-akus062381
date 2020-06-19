@@ -111,8 +111,3 @@ def search_questions(request):
         'answers': answers,
     })
 
-@login_required
-def profile_view(request, username):
-    profile = User.objects.get(username=username)
-
-    return render(request, 'questionbox/profile_view.html', {"profile": profile})

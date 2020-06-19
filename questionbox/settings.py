@@ -129,6 +129,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Custom user model
 
 AUTH_USER_MODEL = 'users.User'
@@ -148,3 +151,4 @@ LOGOUT_REDIRECT_URL = '/'
 import django_heroku
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+

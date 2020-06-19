@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import include, path
 from core import views as core_views
+from users import views as user_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +31,11 @@ urlpatterns = [
     path('questionbox/<int:question_pk>/delete', core_views.delete_question, name='delete_question'),
     path('questionbox/<int:question_pk>/add_answer/', core_views.add_answer, name='add_answer'),
     path('questionbox/search_questions/', core_views.search_questions, name='search_questions'),
-    path('questionbox/<str:username>/', core_views.profile_view, name='profile_view'),
+    path('profile/<str:username>/', user_views.profile_view, name='profile_view'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
