@@ -4,6 +4,9 @@ from .forms import QuestionForm, AnswerForm
 from django.db.models import Q
 from users.models import User
 from django.contrib.auth.decorators import login_required
+from .forms import MyUserCreationForm, MyUserChangeForm
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
 
 # Create your views here.
@@ -47,7 +50,7 @@ def view_question(request, question_pk):
         'answer_form': answer_form
     })
 
-@login_required
+
 def view_user_questions(request):
     """
     Shows all questions asked by a user with links to open and show the show_question page.
@@ -99,7 +102,7 @@ def search_questions(request):
     query = request.GET.get('q')
 
     if query is not None:
-        results = Question.objects.filter(Q(question_body__icontains=query)) 
+        results = Question.objects.filter(Q(question_body__icontains=query) | Q(question_title__icontains=query)) 
         answers = Answer.objects.filter(Q(answer_text__icontains=query))
     else:
         results = None
@@ -110,4 +113,22 @@ def search_questions(request):
         'results': results,
         'answers': answers,
     })
+
+@login_required
+def profile_view(request, username):
+    profile = User.objects.get(username=username)
+
+    if request.method == 'POST':
+        form = MyUserChangeForm(instance=profile, data=request.POST)
+        if form.is_valid():
+            user_profile = form.save()
+            user_profile.user = request.user
+            user_profile.save()
+            return redirect(to='profile_view', username=username)
+    else:
+        form = MyUserChangeForm()
+    
+    return render(request, 'questionbox/profile_view.html', {"profile": profile, "form": form})
+
+
 

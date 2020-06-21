@@ -2,8 +2,27 @@
 
 {% block content %}
 
-<h4>Testing</h4>
+    <div class="content-section">
+        <div class="media">
+            <div class="media-body">
+                <h2>{{ user.username }}</h2>
+                <p class="">{{ user.email }}</p>
+                <p class="">{{ user.current_city }}</p>
+                <p class="">{{ user.bio }}</p>
+                <br>
+                <img class="" src="{{ user.image.url }}">
+            </div>
+        </div>
+    </div>
 
-<p>{{ user.first_name }}</p>
+    <div>
+        <form enctype="multipart/form-data" class="" action="{% url 'profile_view' user.username %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div>
+                <button class="" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}
