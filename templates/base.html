@@ -19,7 +19,7 @@
 </div>
 
 {% if user.is_authenticated %}
-    <p>Welcome back, {{ user.first_name }}!</p>
+    <p>Welcome back, {{ user.username }}!</p>
         <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
         <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
         <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Questions</a></button>
