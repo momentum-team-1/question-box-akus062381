@@ -99,7 +99,7 @@ def add_answer(request, question_pk):
     """
     Adds an answer to an existing question and appends it at the end of any already existing answers.
     """
-    question = get_object_or_404(request.user.questions, pk=question_pk)
+    question = get_object_or_404(Question, pk=question_pk)
 
     if request.method == 'POST':
         form = AnswerForm(data=request.POST)
