@@ -24,6 +24,10 @@ class Answer(models.Model):
     date_field = models.DateTimeField(auto_now_add=True)
     correct_answer = models.BooleanField(default=False)
     favorited_by = models.ManyToManyField(to=User, related_name='favorite_answers')
+    marked_correct = models.BooleanField(default=False)
+
+    def is_marked_correct(self, answer):
+        return self.marked_correct.filter(pk=answer.pk).count() == 1
 
 
 
