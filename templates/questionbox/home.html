@@ -3,23 +3,7 @@
 {% block content %}
 <div>
     
-   
     
-   
-
-    {% if user.is_authenticated %}
-    <p>Welcome back, {{ user.first_name }}!</p>
-        <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
-        <button type="submit"><a class="" href="{% url 'view_user_questions' %}">View Your Questions</a></button>
-        <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
-        <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Questions</a></button>
-        <button type="submit"><a class="" href="{% url 'profile_view' username=user.username %}">View Profile</a></button>
-
-    {% else %}
-        <div>
-            <button type="submit"><a class="" href="{% url 'auth_login' %}">Login</a></button>
-        </div>
-    {% endif %}
 
     <ul>
         {% for question in questions.all %}

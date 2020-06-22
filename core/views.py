@@ -46,8 +46,9 @@ def view_question(request, question_pk):
     """
     # questions = Question.objects.filter()
     question = get_object_or_404(Question.objects.all(), pk=question_pk)
-    
-    is_user_favorite = request.user.is_favorite_question(question)
+    is_user_favorite = False
+    if request.user.is_authenticated:
+        is_user_favorite = request.user.is_favorite_question(question)
 
     answer_form = AnswerForm()
     return render(request, 'questionbox/view_question.html', {
@@ -68,6 +69,7 @@ def add_favorite_question(request, question_pk):
         request.user.favorite_questions.add(question)
         return JsonResponse({"isFavorite": True})
 
+@login_required
 def view_user_questions(request):
     """
     Shows all questions asked by a user with links to open and show the show_question page.

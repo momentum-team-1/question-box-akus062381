@@ -3,16 +3,6 @@
 
 {% block content %}
 
-<div>
-    <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
-    {% if user.is_authenticated %}
-    <button type="submit"><a class="" href="{% url 'view_user_questions' %}">Question Libary</a></button>
-    {% endif %}
-    <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
-    <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Forum</a></button>
-</div>
-
-
 
 <h4>{{ question.question_title }}</h4>
 <p>{{ question.question_body |markdownify }}</p>
@@ -21,12 +11,12 @@
 
 {% if user.is_authenticated %}
 
-    <a style="text-decoration: none; color: blue;" id="favoritethis" data-question-id="{{ question.pk }}" href="#">
+    <p><a style="text-decoration: none; color: blue;" id="favoritethis" data-question-id="{{ question.pk }}" href="#">
     {% if is_user_favorite %}
         &#x2605;
     {% else %}
         &#x2606;
-    </a>
+    </a>Mark Favorite</p>
     {% endif %}
 
 <div>

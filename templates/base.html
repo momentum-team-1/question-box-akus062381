@@ -13,18 +13,31 @@
 
 <body>
 
-
-
 <div>
     <h1>Questionbox</h1>
     <h6>A Community of Helpful Software Developers</h6>
 </div>
 
+{% if user.is_authenticated %}
+    <p>Welcome back, {{ user.first_name }}!</p>
+        <button type="submit"><a class="" href="{% url 'auth_logout' %}">Logout</a></button>
+        <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
+        <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Questions</a></button>
+        <button type="submit"><a class="" href="{% url 'view_user_questions' %}">View Your Questions</a></button>
+        <button type="submit"><a class="" href="{% url 'ask_question' %}">Ask a New Question</a></button>
+        <button type="submit"><a class="" href="{% url 'profile_view' username=user.username %}">View Profile</a></button>
+        
+    {% else %}
+        <br>
+        <div>
+            <button type="submit"><a class="" href="{% url 'auth_login' %}">Login</a></button>
+            <button type="submit"><a class="" href="{% url 'home' %}">Home</a></button>
+            <button type="submit"><a class="" href="{% url 'search_questions' %}">Search Questions</a></button>
+        </div>
+    {% endif %}
+<br>
 {% block content %}
 {% endblock %}
-
-
-
 
 </body>
 
