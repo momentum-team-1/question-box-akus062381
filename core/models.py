@@ -11,6 +11,7 @@ class Question(models.Model):
     question_title = models.CharField(max_length=255, blank=True, null=True)
     question_body = models.TextField(max_length=1000, blank=True, null=True, help_text="Type your question here.")
     date_field = models.DateField(auto_now_add=True)
+    favorited_by = models.ManyToManyField(to=User, related_name='favorite_questions')
 
     # def __str__(self):
     #     return self.question_title
@@ -22,21 +23,9 @@ class Answer(models.Model):
     answer_text = models.TextField(max_length=1000, blank=True, null=True)
     date_field = models.DateTimeField(auto_now_add=True)
     correct_answer = models.BooleanField(default=False)
+    favorited_by = models.ManyToManyField(to=User, related_name='favorite_answers')
 
-    # def __str__(self):
-    #     return self.answer_text
 
-def search_questions(search_term):
-    questions = get_all_questions(Question.objects)
-    return questions.filter(Q(question_title__icontains=search_term)
-        | Q(question_body__icontains=search_term))
-
-def get_all_questions(queryset, user):
-    if user.is_authenticated:
-        questions = queryset.filter(Q(public=True) | Q(user=user))
-    else:
-        questions = queryset.filter(public=True)
-    return questions
 
 
     

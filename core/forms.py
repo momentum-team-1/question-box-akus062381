@@ -55,3 +55,4 @@ class MyUserChangeForm(UserChangeForm):
             'current_city',
             'bio',
         )
+

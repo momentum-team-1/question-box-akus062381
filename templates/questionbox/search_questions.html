@@ -15,16 +15,24 @@
 <br>
 <h6>Results within questions:</h6>
 <ul>
+{% if results is not None %}
     {% for result in results %}
         <li><a class="" href="{% url 'view_question' question_pk=result.pk %}">{{ result.question_title }}</a></li>
+    {% empty %}
+        <p>No results match your query.</p>
     {% endfor %}
+{% endif %}
 </ul>
 <br>
 <h6>Results within answers:</h6>
 <ul>
+{% if answers is not None %}
     {% for answer in answers %}
         <li><a class="" href="{% url 'view_question' question_pk=answer.question.pk %}">{{ answer.answer_text }}</a></li>
+    {% empty %}
+        <p>No results match your query.</p>
     {% endfor %}
+{% endif %}
 </ul>
 
 

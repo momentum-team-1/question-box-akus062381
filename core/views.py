@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import MyUserCreationForm, MyUserChangeForm
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 # Create your views here.
@@ -41,15 +44,29 @@ def view_question(request, question_pk):
     """
     Shows individual questions, their related answers, and offers the option to add an answer.
     """
-    questions = Question.objects.filter(user=request.user)
+    # questions = Question.objects.filter()
+    question = get_object_or_404(Question.objects.all(), pk=question_pk)
+    
+    is_user_favorite = request.user.is_favorite_question(question)
 
-    question = get_object_or_404(request.user.questions, pk=question_pk)
     answer_form = AnswerForm()
     return render(request, 'questionbox/view_question.html', {
         'question': question, 
-        'answer_form': answer_form
+        'answer_form': answer_form,
+        'is_user_favorite': is_user_favorite,
     })
 
+@login_required
+@csrf_exempt
+def add_favorite_question(request, question_pk):
+    question = get_object_or_404(Question.objects.all(), pk=question_pk)
+
+    if request.user.is_favorite_question(question):
+        request.user.favorite_questions.remove(question)
+        return JsonResponse({"isFavorite": False})
+    else:
+        request.user.favorite_questions.add(question)
+        return JsonResponse({"isFavorite": True})
 
 def view_user_questions(request):
     """
@@ -119,14 +136,15 @@ def profile_view(request, username):
     profile = User.objects.get(username=username)
 
     if request.method == 'POST':
-        form = MyUserChangeForm(instance=profile, data=request.POST)
+        
+        form = MyUserChangeForm(instance=profile, data=request.POST, files=request.FILES)
         if form.is_valid():
             user_profile = form.save()
             user_profile.user = request.user
             user_profile.save()
             return redirect(to='profile_view', username=username)
     else:
-        form = MyUserChangeForm()
+        form = MyUserChangeForm(instance=profile)
     
     return render(request, 'questionbox/profile_view.html', {"profile": profile, "form": form})
 
