@@ -10,15 +10,15 @@
 <br>
 
 {% if user.is_authenticated %}
-
-    <p><a style="text-decoration: none; color: blue;" id="favoritethis" data-question-id="{{ question.pk }}" href="#">
+<div>
+    <p>Mark Favorite<a style="text-decoration: none; color: blue;" id="favoritethis" data-question-id="{{ question.pk }}" href="#">
     {% if is_user_favorite %}
         &#x2605;
     {% else %}
         &#x2606;
-    </a>Mark Favorite</p>
+    </a></p>
     {% endif %}
-
+</div>
 <div>
     <button type="submit"><a href="{% url 'delete_question' question_pk=question.pk %}">Delete Question</a></button>
 </div>
@@ -29,7 +29,13 @@
 
 <ul>
     {% for answer in question.answers.all %}
-        <li><p>{{ answer.answer_text |markdownify }}</p><p>{{ answer.date_field }}</p></li>
+    <li>
+            <p>{{ answer.answer_text |markdownify }} <br> Answer provided by: {{ answer.user.username }}</p><p>{{ answer.date_field }}</p>
+        {% if user == question.user %}
+        <a id="mark-correct" data-question-id="{{ question.pk }}" data-answer-id="{{ answer.pk }}" href="">
+            {% if answer.marked_correct %} Marked Correct {% else %} Mark Answer Correct {% endif %}</a>
+        {% endif %}
+    </li>
     {% endfor %}
 </ul>
 
@@ -64,6 +70,24 @@
             }
         })
     })
+
+    const markCorrectLink = document.querySelectorAll("#mark-correct");
+    for (let answer of markCorrectLink){answer.addEventListener("click", (event) => {
+        event.preventDefault();
+        let questionId = answer.dataset.questionId;
+        let answerId = answer.dataset.answerId;
+        fetch("/questionbox/" + questionId + "/" + answerId + "/mark_correct/", {
+            method: "POST", 
+            credentials: "include",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.markedCorrect) {answer.innerHTML = "Answer Is Correct";
+            } else {
+                answer.innerHTML = "Mark Answer Correct";
+            }
+        })
+    })}
 </script>
 
 {% endblock %}

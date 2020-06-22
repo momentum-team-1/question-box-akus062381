@@ -117,6 +117,23 @@ def add_answer(request, question_pk):
         'question': question
     })
 
+@login_required
+@csrf_exempt
+def mark_answer_correct(request, question_pk, answer_pk):
+    questions = Question.objects.all()
+    question = get_object_or_404(questions, pk=question_pk)
+    answers = question.answers.all()
+    answer = get_object_or_404(answers, pk=answer_pk)
+
+    if answer.marked_correct == True:
+        answer.marked_correct=False
+        answer.save()
+        return JsonResponse({"markedCorrect": False})
+    else:
+        answer.marked_correct=True
+        answer.save()
+        return JsonResponse({"markedCorrect": True})
+
 def search_questions(request):
     query = request.GET.get('q')
 

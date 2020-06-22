@@ -33,6 +33,7 @@ urlpatterns = [
     path('questionbox/<int:question_pk>/add_answer/', core_views.add_answer, name='add_answer'),
     path('questionbox/search_questions/', core_views.search_questions, name='search_questions'),
     path('profile/<str:username>/', core_views.profile_view, name='profile_view'),
+    path('questionbox/<int:question_pk>/<int:answer_pk>/mark_correct/', core_views.mark_answer_correct, name='mark_answer_correct')
 ]
 
 if settings.DEBUG:
